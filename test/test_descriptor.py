@@ -28,6 +28,18 @@ class TestDescriptor(unittest.TestCase):
         self.assertEqual(desc.testnet, True)
         self.assertEqual(desc.m_path, None)
 
+    def test_parse_descriptor_with_origin_fingerprint_only(self):
+        desc = Descriptor.parse("wpkh([00000001]***REMOVED***/0/0)", True)
+        self.assertIsNotNone(desc)
+        self.assertEqual(desc.wpkh, True)
+        self.assertEqual(desc.sh_wpkh, None)
+        self.assertEqual(desc.origin_fingerprint, "00000001")
+        self.assertEqual(desc.origin_path, "")
+        self.assertEqual(desc.base_key, "***REMOVED***")
+        self.assertEqual(desc.path_suffix, "/0/0")
+        self.assertEqual(desc.testnet, True)
+        self.assertEqual(desc.m_path, None)
+
     def test_parse_descriptor_with_key_at_end_with_origin(self):
         desc = Descriptor.parse("wpkh([00000001/84'/1'/0'/0/0]***REMOVED***)", True)
         self.assertIsNotNone(desc)
